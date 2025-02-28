@@ -97,6 +97,6 @@ Congrats if you create your sensors now and subscribe with `mosquitto_sub -h loc
 3. go to localhost:3000
 4. you have to login at first login it will be user: admin password: admin ![login](./images/Screenshot_20250227_114706.png)
 5. install the MQTT plugin on the Add new connection tab ![add new connection](./images/Screenshot_20250227_114508.png)
-6. now link your Data sources with your MQTT with `tcp://localhost:1883` ![Data sources](./images/Screenshot_20250227_113554.png)
+6. now link your Data sources with your MQTT with `tcp://localhost:1883` ![Data Source](/images/DataSource.png)
 7. now configure your Dashboard with your sensors ![Dashboards](./images/Screenshot_20250227_115916.png)
 8. Congrats! now you can see the temperature visualizing on the Graph :)

@@ -9,7 +9,7 @@ MQTT(Message Queuing Telemetry Transport) is a lightweight, open protocol that i
 listener 1883
 allow_anonymous true
 ```
-2. now create a docker-compose file with this content
+2. now create a docker-compose file with this conte
 ```yml
 services:
   mosquitto:
@@ -23,7 +23,8 @@ services:
       - ./log:/mosquitto/log
 ```
 so your directory should look like this 
-![directory](./images/image.png)
+![directory](./images/image.png) <br>
+
 3. run `docker compose up -d`
 
 

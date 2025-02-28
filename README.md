@@ -22,8 +22,8 @@ services:
       - ./data:/mosquitto/data
       - ./log:/mosquitto/log
 ```
-so your directory should look like this 
-![directory](./images/image.png) <br>
+so your directory should look like this <br>
+![directory](./images/image.png) 
 
 3. run `docker compose up -d`
 

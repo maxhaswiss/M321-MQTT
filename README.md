@@ -56,6 +56,9 @@ home/livingroom/temperature
 - livingroom -> sub category
 - temperature -> sensorvalue
 ## Using MQTT with Dummy Sensors
+To test how MQTT works we will make a System with 3 Sensors and we will Visualize it with Grafana later
+this is how the concept looks.
+![RoomDiagramm](./images/Roomdiagramm.png)
 So we continue with creating some Dummy Sensors with a simple bash script that looks like this:
 ```bash
 #!/bin/bash

@@ -100,3 +100,136 @@ Congrats if you create your sensors now and subscribe with `mosquitto_sub -h loc
 6. now link your Data sources with your MQTT with `tcp://localhost:1883` ![Data Source](/images/DataSource.png)
 7. now configure your Dashboard with your sensors ![Dashboards](./images/Screenshot_20250227_115916.png)
 8. Congrats! now you can see the temperature visualizing on the Graph :)
+
+## Use MQTT in Java
+to use MQTT in Java we need the paho Mqtt dependency. With that we can now create Messages with our Java Programms. to Test that we will write a simple programm that will post random Sinus numbers in the Topic Demo. The first thing we will do, is to add these imports to our Main class. 
+```java
+import org.eclipse.paho.client.mqttv3.MqttClient;
+import org.eclipse.paho.client.mqttv3.MqttMessage;
+```
+After adding this we can now start with our code. Your MQTT client needs a try/catch block so it can catch the errors of our MQTT. so the code should look like this
+```java
+package ch.zero.M321;
+
+import java.util.UUID;
+
+import org.eclipse.paho.client.mqttv3.MqttClient;
+import org.eclipse.paho.client.mqttv3.MqttMessage;
+
+/**
+ * Hello world!
+ */
+public class App {
+    public static void main(String[] args) {
+        System.out.println("Hello World!");
+        try {
+
+            MqttClient client = new MqttClient("tcp://localhost:1883", UUID.randomUUID().toString());
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+
+        }
+    }
+}
+```
+Now we are connected with our MQTT client. now we make the inkrement with the value of 0
+```java
+package ch.zero.M321;
+
+import java.util.UUID;
+
+import org.eclipse.paho.client.mqttv3.MqttClient;
+import org.eclipse.paho.client.mqttv3.MqttMessage;
+
+/**
+ * Hello world!
+ */
+public class App {
+    public static void main(String[] args) {
+        System.out.println("Hello World!");
+        try {
+            MqttClient client = new MqttClient("tcp://localhost:1883", UUID.randomUUID().toString());
+            
+            double inkrement = 0;
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+
+        }
+        
+    }
+}
+
+```
+But we also need a Topic that we can use so we create the variable topic
+```java
+package ch.zero.M321;
+
+import java.util.UUID;
+
+import org.eclipse.paho.client.mqttv3.MqttClient;
+import org.eclipse.paho.client.mqttv3.MqttMessage;
+
+/**
+ * Hello world!
+ */
+public class App {
+    public static void main(String[] args) {
+        private static final String Topic = "Demo";
+        System.out.println("Hello World!");
+        try {
+            MqttClient client = new MqttClient("tcp://localhost:1883", UUID.randomUUID().toString());
+            
+            double inkrement = 0;
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+
+        }
+        
+    }
+}
+```
+So now we got our Topic. Then lets do our simple loop for the sinus numbers
+```java
+package ch.zero.M321;
+
+import java.util.UUID;
+
+import org.eclipse.paho.client.mqttv3.MqttClient;
+import org.eclipse.paho.client.mqttv3.MqttMessage;
+
+/**
+ * Hello world!
+ */
+public class App {
+    private static final String Topic = "Demo";
+    public static void main(String[] args) {
+        System.out.println("Hello World!");
+        try {
+            MqttClient client = new MqttClient("tcp://localhost:1883", UUID.randomUUID().toString());
+            
+            double inkrement = 0;
+
+            while (true) {
+                Double value = Math.sin(inkrement);
+                client.connect();
+                MqttMessage message = new MqttMessage(String.valueOf(value).getBytes());
+                inkrement= (inkrement+0.1) % (2*Math.PI);
+                client.publish(Topic, message);
+                client.disconnect();
+                Thread.sleep(1000);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+    }
+}
+```
+What we did here is that we connect to the client and making a new MqttMessage that is called message and we stringify our value of the sinus we just created. then we publish it with client.publish. then we disconnect again.

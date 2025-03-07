@@ -233,3 +233,59 @@ public class App {
 }
 ```
 What we did here is that we connect to the client and making a new MqttMessage that is called message and we stringify our value of the sinus we just created. then we publish it with client.publish. then we disconnect again.
+
+### expanded programm with parameters
+We now expand our programm with parameters in which Topic we publish and subscribe
+```java
+package ch.zero.M321;
+
+import java.util.UUID;
+
+import org.eclipse.paho.client.mqttv3.IMqttMessageListener;
+import org.eclipse.paho.client.mqttv3.MqttClient;
+import org.eclipse.paho.client.mqttv3.MqttMessage;
+
+
+public class App {
+    public static void main(String[] args) {
+        System.out.println("Hello World!");
+        String pubTopic;
+        String subTopic;
+        if(args.length > 1) {
+            pubTopic = args[0];
+            subTopic = args[1];
+            try {
+
+                MqttClient client = new MqttClient("tcp://localhost:1883", UUID.randomUUID().toString());
+                client.connect();
+                client.subscribe(subTopic, new IMqttMessageListener() {
+    
+                    @Override
+                    public void messageArrived(String topic, MqttMessage message) throws Exception {
+                        System.out.println("received Topic: " + topic + ", Message: " + message);
+                    }
+                });
+                double inkrement = 0;
+    
+                while (true) {
+                    Double value = Math.sin(inkrement);
+                    MqttMessage message = new MqttMessage(String.valueOf(value).getBytes());
+                    inkrement= (inkrement+0.1) % (2*Math.PI);
+                    client.publish(pubTopic, message);
+                    Thread.sleep(1000);
+                }
+
+    
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            System.out.println("please provide a pubTopic and a subTopic");
+        }
+
+        
+    }
+}
+```
+now if we give our programm 2 parameters it will publish on the first and subscribe on the second. Now we can make the same as the sensordummys. So we have beautiful Sinus curves in our Grafana
+![Grafanajava](./images/Grafanajava.png)
